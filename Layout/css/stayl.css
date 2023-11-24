@@ -14,7 +14,21 @@
         border: 3px solid #2504ff;
         
 }
-.dii img{
-        margin-top: 20px;
-       
-}
+
+label {
+        margin-right: 10px;
+      }
+      
+      select {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.3s;
+      }
+      
+      select:hover,
+      select:focus {
+        border-color: #007bff;
+      }

@@ -60,13 +60,14 @@
         <a href="#" class="text-white hover:text-gray-300 px-4 py-2"></a>
       </div>
     </div>
+    
     <div>
     <label for="categorias">Selecciona una categoría:</label>
   <select id="categorias" name="categorias">
     <option value="opcion1">Categoría 1</option>
     <option value="opcion2">Categoría 2</option>
     <option value="opcion3">Categoría 3</option>
-    <!-- Agrega más opciones según sea necesario -->
+  
   </select> 
     </div>
   </nav>
@@ -110,70 +111,99 @@ foreach ($quy as $row) {
     echo "</tr>";
 }
 // close tag php
-?>
-<!-- admin imag php -->
-<table border="8" width="90%">
-        <h3>PRODUCTS</h3>
 
-        <tr>
-            <th>id</th>
-            <th>titre</th>
-            <th>description</th>
-            <th>prix</th>
-            <th>image</th>
-            <th>add product </th>
-        </tr>
-<?php
+?><br><br>
+    </table>
+    <!-- add imag in database -->
+    <div class="container-5">
+    <form class="max-w-md mx-auto"  action="dashboard.php" method="post" enctype="multipart/form-data"><br><br>
+    <div class="flex flex-col justify-center container mx-auto px-4">
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="titre" placeholder="titre">
+
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="description" placeholder="description">
+
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="prix" placeholder="prix">
+
+      <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" name="image" accept="image/*">
+        <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" name="submit">Button</button>
+    </div>
+    </form>
+    </div>
+  <h2>hufdojsodnjb</h2>
+    <!-- php -->
+   
+        <?php
 require_once './tmp/connection.php';
 
-// if (isset($_POST['potona'])) {
-
-// // Handling the form submission to add an image
-// if (isset($_POST['addImage'])) {
-//     $productName = $_POST['product'];
-//     $imageData = file_get_contents($_FILES['image']['tmp_name']);
-//     $imageData = mysqli_real_escape_string($conn, $imageData);
-
-//     $insertQuery = "INSERT INTO product (title, image) VALUES ('$productName', '$imageData')";
-//     mysqli_query($conn, $insertQuery);
-
-//     // Redirect to the same page or another page after insertion
-//     header("Location: your_page.php");
-//     exit();
-// }
-// }
+// Fetch existing products
 $sql = "SELECT * FROM product";
 $quy = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($quy);
 
-foreach ($quy as $row) {
-    $id = $row['id'];
+echo "<table border='1'>
+    <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th>delete image</th>
+
+    </tr>";
+
+while ($row = mysqli_fetch_assoc($quy)) {
     echo "<tr>";
     echo "<td>" . $row['id'] . "</td>";
     echo "<td>" . $row['titre'] . "</td>";
     echo "<td>" . $row['description'] . "</td>";
     echo "<td>" . $row['prix'] . "</td>";
-    echo "<td>" . $row['imag'] . "</td>";
-    echo "<td><a href='delete.php?id=$id'>delete product</a></td>";
-  
+    echo "<td><img src='./uploads/" . $row['image'] . "' width='100' height='100'></td>";
+    echo "<td><a href='delete.php?id=" . $row['id'] . "'>delete product</a></td>";
     echo "</tr>";
 }
+
+echo "</table>";
+
+// Add a new product
+if (isset($_POST['submit'])) {
+    $titre = $_POST['titre'];
+    $description = $_POST['description'];
+    $prix = $_POST['prix'];
+
+    // Upload image to server
+
+    $img_name = $_FILES['image']['name'];
+    $img_size = $_FILES['image']['size'];
+    $tmp_name = $_FILES['image']['tmp_name'];
+    $error = $_FILES['image']['error'];
+
+
+    $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+			$img_ex_lc = strtolower($img_ex);
+      $allowed_exs = array("jpg", "jpeg", "png"); 
+
+      if (in_array($img_ex_lc, $allowed_exs)) {
+				$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+				$img_upload_path = './uploads/'.$new_img_name;
+				move_uploaded_file($tmp_name, $img_upload_path);
+
+				// Insert into Database
+          $sql = "INSERT INTO product (titre, description, prix, image) VALUES ('$titre', '$description', '$prix', '$new_img_name')";
+
+				mysqli_query($conn, $sql);
+				
+        exit();
+			}else {
+        echo "Error: " . mysqli_error($conn);
+			}
+
+    
+}
+
+mysqli_close($conn);
+
 ?>
 
 
-    <!-- updat imag -->
-    <form action="" method="post" enctype="multipart/form-data">
-  <label for="name">name of product :</label>
-  <input type="text" name="product" id="name" placeholder="name product"> <br> <br>
-  <label for="image">Image :</label>
-  <input type="file" name="image" id="image" accept=".jpg .jpeg .png" value=""><br> <br>
-  <button style="border: 3px solid #000; background-color:blue ; font-size : 20px; font-family:bold ; color:white ; padding:10px 10px 10px 10px" type="submit" name="potona"> Valide</button><br> <br>
-
-</form>
-
- 
-
-    </table>
 
   <footer class="bg-blue-500 text-white p-8 mt-8">
     <div class="container mx-auto flex flex-col md:flex-row justify-between">
@@ -194,6 +224,15 @@ foreach ($quy as $row) {
         <p>Email : electroNacer@gmail.com</p>
         <ion-icon name="call-outline"></ion-icon>
         <p>Téléphone : +1 123 456 7890</p>
+      </div>
+      <div style="gap: 30px; font-size:30px;color:aquamarine">
+        <h2 class="text-lg font-semibold mb-2">social media </h2>
+        <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+        <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+        <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+        <a href="#"><ion-icon name="logo-whatsapp"></ion-icon></a>
+        
+
       </div>
     </div>
   </footer>

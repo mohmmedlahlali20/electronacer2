@@ -10,7 +10,10 @@
 </head>
 
 <body class="bg-gray-100 p-8 bg-gray-100">
-  
+   <!-- get product in data base -->
+   
+
+   
   
   <!-- Barre de Navigation -->
   <nav  class="bg-blue-500 p-4">
@@ -71,114 +74,37 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
       <!-- Produit 1 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 1" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2"></h2>
-        <p class="text-gray-600">Description du produit 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$19.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
+      <?php
+require('./tmp/connection.php');
 
-      <!-- Produit 2 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <!-- produit 3 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <!-- produit 4 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 1" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 1</h2>
-        <p class="text-gray-600">Description du produit 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$19.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
+$sql = "SELECT * FROM product";
 
-      <!-- Produit 2 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <!-- produit 3 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <!-- produit 4 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div> 
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 1" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 1</h2>
-        <p class="text-gray-600">Description du produit 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$19.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
+$result = $conn->query($sql);
 
-      <!-- Produit 2 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <!-- produit 3 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy now</button>
-      </div>
-      <!-- produit 4 -->
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <img src="./img/87c33c6e8560da43dd58090235cebf02.jpg" alt="Produit 2" class="mb-4 rounded">
-        <h2 class="text-lg font-semibold mb-2">Produit 2</h2>
-        <p class="text-gray-600">Description du produit 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="text-blue-500 mt-2">$29.99</p>
-        <span style="color:yellow;font-size:25px">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>
-        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">buy nowr</button>
-      </div>
+if (!$result) {
+    die("Error: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<div class='w-64 m-4 p-4 bg-white rounded-lg shadow-md'>
+            <img class='w-full h-64 object-cover mb-6 rounded-lg' src='{$row['image']}' alt=''>
+            <h2 class='text-lg font-semibold text-gray-800 capitalize'>" . (isset($row['name']) ? $row['name'] : 'N/A') . "</h2>
+            <p class='text-gray-600 mb-4'>" . (isset($row['description']) ? $row['description'] : 'No description') . "</p>
+            <div class='flex items-center justify-between'>
+                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['price']) ? $row['price'] : 'N/A') . " $</h3>
+                <button class='bg-indigo-600 text-white px-4 py-2 rounded-md'>Add to Cart</button>
+            </div>
+        </div>";
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+?>
+
+
 
 
       <!-- Ajoutez plus de produits ici -->

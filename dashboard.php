@@ -192,8 +192,6 @@ if (isset($_POST['submit'])) {
 				mysqli_query($conn, $sql);
 				
         exit();
-			}else {
-        echo "Error: " . mysqli_error($conn);
 			}
 
     

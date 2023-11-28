@@ -82,14 +82,14 @@
 
   <h1 style="text-align: center; font-size:40px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;color:blue;margin:10px 10px 10px 10px;">table des donnes</h1><hr>
 <!-- php dyal admin tableau -->
-    <table border="8" width="90%">
-        <h3>USERS</h3>
+    <table border="8" width="90%" height="90%" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <h3 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl">USERS</h3>
         <tr>
             <th>id</th>
-            <th>Username</th>
+           
             <th>PassWord</th>
             <th>email</th>
-            <th>delete user</th>
+            <th >delete user</th>
             <th>accepter user </th>
         </tr>
 <?php
@@ -103,33 +103,35 @@ foreach ($quy as $row) {
     $id = $row['id'];
     echo "<tr>";
     echo "<td>" . $row['id'] . "</td>";
-    echo "<td>" . $row['Username'] . "</td>";
+   
     echo "<td>" . $row['Password'] . "</td>";
     echo "<td>" . $row['Email'] . "</td>";
-    echo "<td><a href='delete.php?id=$id'>delete user</a></td>";
-    echo "<td><a href='index.php?id=$id'>add user</a></td>";
+    echo "<td><a class='nline-flex items-center mb-20 px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='delete.php?id=$id' style='margin: 10px 0 10px 0;'>delete user</a></td>";
+
+    echo "<td><a class='nline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='index.php?id=$id'>add user</a></td>";
     echo "</tr>";
 }
 // close tag php
 
-?><br><br>
+?>
+<br><br>
     </table>
     <!-- add imag in database -->
     <div class="container-5">
     <form class="max-w-md mx-auto"  action="dashboard.php" method="post" enctype="multipart/form-data"><br><br>
     <div class="flex flex-col justify-center container mx-auto px-4">
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="titre" placeholder="titre">
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="titre" placeholder="titre"><br><br>
 
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="description" placeholder="description">
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="description" placeholder="description"><br><br>
 
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="prix" placeholder="prix">
+      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlin" type="text" name="prix" placeholder="prix"><br><br>
 
-      <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" name="image" accept="image/*">
+      <input class="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" name="image" accept="image/*"><br><br>
         <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" name="submit">Button</button>
     </div>
     </form>
     </div>
-  <h2>hufdojsodnjb</h2>
+  <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl">tabel product</h2>
     <!-- php -->
    
         <?php
@@ -139,7 +141,7 @@ require_once './tmp/connection.php';
 $sql = "SELECT * FROM product";
 $quy = mysqli_query($conn, $sql);
 
-echo "<table border='1'>
+echo "<table border='1' class='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
     <tr>
     <th>ID</th>
     <th>Title</th>
@@ -156,8 +158,10 @@ while ($row = mysqli_fetch_assoc($quy)) {
     echo "<td>" . $row['titre'] . "</td>";
     echo "<td>" . $row['description'] . "</td>";
     echo "<td>" . $row['prix'] . "</td>";
+
     echo "<td><img src='./uploads/" . $row['image'] . "' width='100' height='100'></td>";
-    echo "<td><a href='delete.php?id=" . $row['id'] . "'>delete product</a></td>";
+
+    echo "<td><a class='nline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='delete.php?id=" . $row['id'] . "'>delete product</a></td>";
     echo "</tr>";
 }
 
@@ -193,13 +197,13 @@ if (isset($_POST['submit'])) {
 				
         exit();
 			}
-
-    
 }
 
 mysqli_close($conn);
 
 ?>
+
+
 
 
 

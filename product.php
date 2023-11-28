@@ -40,24 +40,12 @@
         <a href="#" class="text-white hover:text-gray-300 px-4 py-2"></a>
       </div>
     </div>
-    <div>
-    <label for="categorias">Selecciona una categoría:</label>
-  <select id="categorias" name="categorias">
-    <option value="opcion1">Categoría 1</option>
-    <option value="opcion2">Categoría 2</option>
-    <option value="opcion3">Categoría 3</option>
-    <!-- Agrega más opciones según sea necesario -->
-  </select>
-    </div>
+    
   </nav>
+  
 
   <!-- Menu Déroulant pour les Petits Écrans -->
-  <div class="lg:hidden bg-blue-500 text-white p-4">
-    <a href="#" class="block py-2">Our Product</a>
-    <ion-icon name="basket-outline"></ion-icon>
-    <a href="#" class="block py-2">0.00 USD</a>
-    <a href="#" class="block py-2">Contact</a>
-  </div>
+  
 
 
   <div class="container mx-auto dii">
@@ -72,8 +60,22 @@
         text-align:center;
         " id="titels" class="text-3xl font-semibold mb-8">Catalogue de Produits</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      <!-- Produit 1 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
+      <div>
+      <label style="font-family:bold italic; color:black" for="categorias"> filtre les prix</label>
+  <select name="categorias">
+    <option value="opcion1">100-200$</option>
+    <option value="opcion2">300-400$</option>
+    <option value="opcion3">plus que 400$</option>
+  </select>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit" name="filterCategory">Filtre</button>
+      </div>
+      <!-- filtre les product par  price  -->
+
+
+      </div> 
+            <!-- Produit 1 -->
+  <div class="flex gap-20 flex-wrap">
       <?php
 require('./tmp/connection.php');
 
@@ -87,51 +89,87 @@ if (!$result) {
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo "<div class='w-64 m-4 p-4 bg-white rounded-lg shadow-md'>
-            <img class='w-full h-64 object-cover mb-6 rounded-lg' src='{$row['image']}' alt=''>
-            <h2 class='text-lg font-semibold text-gray-800 capitalize'>" . (isset($row['name']) ? $row['name'] : 'N/A') . "</h2>
+        echo "<div class='w-64 m-4 p-4 bg-white rounded-lg shadow-md '>
+            <img class='w-full h-64 object-cover mb-6 rounded-lg' src='./uploads/" . $row['image'] . "' alt=''>
+            <h2 class='text-lg font-semibold text-gray-800 capitalize'>" . (isset($row['titre']) ? $row['titre'] : 'NOT FOUND') . "</h2>
             <p class='text-gray-600 mb-4'>" . (isset($row['description']) ? $row['description'] : 'No description') . "</p>
             <div class='flex items-center justify-between'>
-                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['price']) ? $row['price'] : 'N/A') . " $</h3>
+                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['prix']) ? $row['prix'] : 'no price??') . " $</h3>
                 <button class='bg-indigo-600 text-white px-4 py-2 rounded-md'>Add to Cart</button>
             </div>
         </div>";
     }
-} else {
-    echo "0 results";
-}
+} 
 
 $conn->close();
 ?>
+<!-- filtre les product par titre de database -->
+</div>
+<?php 
+
+require('./tmp/connection.php');
+
+// Check if the filter form is submitted
+if (isset($_POST['filterCategory'])) {
+    $priceFilter = "";  // Initialize the price filter string
+    //  help me
+
+    // Adjust this part based on your actual database structure
+    if ($_POST['categorias'] == 'opcion1') {
+        $priceFilter = "BETWEEN 100 AND 200";
+    } elseif ($_POST['categorias'] == 'opcion2') {
+        $priceFilter = "BETWEEN 300 AND 400";
+    } elseif ($_POST['categorias'] == 'opcion3') {
+        $priceFilter = "> 400";
+    }
+
+    // Retrieve products with the applied filter
+    $products = getProducts($conn, $priceFilter);
+} else {
+    // Retrieve all products without filtering
+    $products = getProducts($conn);
+}
+
+// Display the products
+foreach ($products as $row) {
+    // ... (Your existing product display code)
+}
+$conn->close();
+
+function getProducts($conn, $priceFilter = "") {
+  $sql = "SELECT * FROM product";
+
+  // Append WHERE clause for price filtering if a filter is provided
+  if (!empty($priceFilter)) {
+      $sql .= " WHERE prix " . $priceFilter;
+  }
+
+  $result = $conn->query($sql);
+
+  if (!$result) {
+      die("Error: " . $conn->error);
+  }
+
+  $products = array();
+  if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+          $products[] = $row;
+      }
+  }
+
+  return $products;
+}
 
 
 
+?> 
 
-      <!-- Ajoutez plus de produits ici -->
 
-    </div>
-  </div>
-  <footer class="bg-blue-500 text-white p-8 mt-8">
-    <div class="container mx-auto flex flex-col md:flex-row justify-between">
-      <!-- Colonne de Liens -->
-      <div class="mb-4 md:mb-0">
-        <h2 class="text-lg font-semibold mb-2">Liens Utiles</h2>
-        <ul>
-          <li><a href="#" class="hover:underline">Conditions d'utilisation</a></li>
-          <li><a href="#" class="hover:underline">&copy All Rights Reserved</a></li>
-          
-        </ul>
-      </div>
+      <!-- Produit 1 -->
+      
 
-      <!-- Informations de Contact -->
-      <div>
-        <h2 class="text-lg font-semibold mb-2">Contact</h2>
-        <ion-icon name="mail-outline"></ion-icon>
-        <p>Email : electroNacer@gmail.com</p>
-        <ion-icon name="call-outline"></ion-icon>
-        <p>Téléphone : +1 123 456 7890</p>
-      </div>
-    </div>
+
+
   </footer>
 
   

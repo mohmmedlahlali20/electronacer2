@@ -74,6 +74,7 @@ INSERT INTO `users` (`id`, `Username`, `Email`, `Password`, `Role`, `Verified`, 
 (15, NULL, 'admin@test.com', 'ad123', '', 0, 0),
 (16, NULL, 'user@test.com', 'user123', '', 0, 0),
 (27, NULL, 'admin2@test.com', 'ad1234', 'admin', 0, 0);
+(27, NULL, 'admin3@test.com', 'ad12345', 'admin', 0, 0);
 
 --
 -- Indexes for dumped tables

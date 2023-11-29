@@ -130,12 +130,13 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+</div>
 <!-- Add this form before the table -->
- d
-<footer class="bg-white lg:grid lg:grid-cols-5">
+ <div>
+ <footer class="bg-white lg:grid lg:grid-cols-5">
   <div class="relative block h-32 lg:col-span-2 lg:h-full">
     <img
-      src="./Layout/img/hhhh.jpg"
+      src="./Layout/img/Nouveau_projet1.png" style="background-color:  #000033;"
       alt=""
       class="absolute inset-0 h-full w-full object-cover"
     />
@@ -375,8 +376,10 @@ $conn->close();
     </div>
   </div>
 </footer>
+ </div>
 
-</div>
+
+
 <script src="./Layout/js/script.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>

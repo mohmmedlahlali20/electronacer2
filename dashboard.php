@@ -61,15 +61,7 @@
       </div>
     </div>
     
-    <div>
-    <label for="categorias">Selecciona una categoría:</label>
-  <select id="categorias" name="categorias">
-    <option value="opcion1">Categoría 1</option>
-    <option value="opcion2">Categoría 2</option>
-    <option value="opcion3">Categoría 3</option>
-  
-  </select> 
-    </div>
+    
   </nav>
 
   <!-- Menu Déroulant pour les Petits Écrans -->
@@ -86,11 +78,13 @@
         <h3 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl">USERS</h3>
         <tr>
             <th>id</th>
-           
+            
             <th>PassWord</th>
             <th>email</th>
+
             <th >delete user</th>
             <th>accepter user </th>
+            <th>Role</th>
         </tr>
 <?php
 require_once './tmp/connection.php';
@@ -103,17 +97,20 @@ foreach ($quy as $row) {
     $id = $row['id'];
     echo "<tr>";
     echo "<td>" . $row['id'] . "</td>";
-   
     echo "<td>" . $row['Password'] . "</td>";
     echo "<td>" . $row['Email'] . "</td>";
     echo "<td><a class='nline-flex items-center mb-20 px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='delete.php?id=$id' style='margin: 10px 0 10px 0;'>delete user</a></td>";
 
     echo "<td><a class='nline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='index.php?id=$id'>add user</a></td>";
+    echo "<td><select name='categorias'>";
+    // solution
+
     echo "</tr>";
 }
 // close tag php
 
 ?>
+
 <br><br>
     </table>
     <!-- add imag in database -->
@@ -198,10 +195,35 @@ if (isset($_POST['submit'])) {
         exit();
 			}
 }
+// <!-- sorting product croissant by php  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 mysqli_close($conn);
+?>
+<?php 
+require './tmp/connection.php';
+// sorting all product  in order croissant using php and mysqli
+$sql = "SELECT * FROM product ORDER BY prix ASC";
+$result = mysqli_query($conn, $sql);
+
+
+
+
 
 ?>
+
 
 
 

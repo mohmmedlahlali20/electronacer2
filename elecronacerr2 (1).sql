@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2023 at 05:15 PM
+-- Generation Time: Dec 11, 2023 at 10:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,36 +39,32 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`id_c`, `name_c`) VALUES
 (1, 'laptop'),
 (2, 'phone'),
-(3, 'speaker'),
-(4, 'LapTop'),
-(5, 'speaker');
+(3, 'speaker');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `product`
 --
+
 CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `titre` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `prix` float DEFAULT NULL,
   `image` varchar(255) NOT NULL,
-  `q_min` int(11) NOT NULL,
-  `q_max` varchar(255) NOT NULL,
+  `q_min` float NOT NULL,
+  `q_max` float NOT NULL,
   `id_c` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `product` (
-  `id` int(11)  NOT NULL,
-  `titre` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `prix` float DEFAULT NULL,
-  `image` int(11) NOT NULL,
-  `q_min` float(11) NOT NULL,
-  `q_max` float(255) NOT NULL,
-  `id_c` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`id`, `titre`, `description`, `prix`, `image`, `q_min`, `q_max`, `id_c`) VALUES
+(22, 'speaker', 'speaker sony a haut vois ledder', 456, 'IMG-6574d398845bb1.75554252.jpg', 20, 40, 3),
+(23, 'phone', 'iphon 13 pro max 256 12 ram 2.5Ghz', 52, 'IMG-6574d3ba8d25f7.80511970.jpg', 20, 45, 2);
 
 -- --------------------------------------------------------
 
@@ -91,11 +87,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `Username`, `Email`, `Password`, `Role`, `Verified`, `Hidden`) VALUES
-(15, NULL, 'admin@test.com', 'ad123', '', 0, 0),
-(16, NULL, 'user@test.com', 'user123', '', 0, 0),
-(27, NULL, 'admin2@test.com', 'ad1234', 'admin', 0, 0),
-(28, NULL, 'kata2ib@9assam.com', '2014', 'user', 0, 0),
-(29, NULL, '', '', 'user', 0, 0);
+(27, NULL, 'admin2@test.com', 'ad1234', 'user', 0, 0),
+(28, NULL, 'kata2ib@9assam.com', '2014', 'admin', 0, 0),
+(41, NULL, 'user@test.com', '120', 'user', 0, 0),
+(43, NULL, 'admin@test.com', 'ad123', 'user', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -106,6 +101,12 @@ INSERT INTO `users` (`id`, `Username`, `Email`, `Password`, `Role`, `Verified`, 
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id_c`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -126,10 +127,16 @@ ALTER TABLE `categories`
   MODIFY `id_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

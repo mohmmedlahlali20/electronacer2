@@ -36,7 +36,7 @@
 <body class="bg-gray-100 p-8 bg-gray-100">
   
   
-  <!-- Barre de Navigation -->
+  
   <nav  class="bg-blue-500 p-4">
     <div class="container mx-auto flex items-center justify-between">
       <!-- Logo -->
@@ -46,7 +46,6 @@
       <h1 style="text-align: center; margin-left:120px;font-size:30px;color:aliceblue;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif , bold;">Electro_Nacer</h1>
       </div>
       
-      <!-- Bouton de Menu pour les petits écrans -->
       <button id="menuToggle" class="text-white focus:outline-none lg:hidden">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -68,43 +67,57 @@
 
   <h1 style="text-align: center; font-size:40px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;color:blue;margin:10px 10px 10px 10px;">table des donnes</h1><hr>
 <!-- php dyal admin tableau -->
-    <table border="8" width="90%" height="90%" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <h3 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl">USERS</h3>
-        <tr>
-            <th>id</th>
-            <th>PassWord</th>
-            <th>email</th>
-            <th >delete user</th>
-            <th>accepter user </th>
-            <th>Role</th>
-        </tr>
-<?php
-require_once './tmp/connection.php';
+<table border="8" width="90%" height="90%" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <h3 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl">USERS</h3>
+    <tr>
+        <th>id</th>
+        <th>PassWord</th>
+        <th>email</th>
+        <th>delete user</th>
+        <th>accepter user </th>
+        <th>Role</th>
+    </tr>
 
-$sql = "SELECT * FROM users";
-$quy = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($quy);
+    <?php
+    require_once './tmp/connection.php';
 
-foreach ($quy as $row) {
-    $id = $row['id'];
-    echo "<tr>";
-    echo "<td>" . $row['id'] . "</td>";
-    echo "<td>" . $row['Password'] . "</td>";
-    echo "<td>" . $row['Email'] . "</td>";
-    echo "<td><a class='nline-flex items-center mb-20 px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='delete.php?id=$id' style='margin: 10px 0 10px 0;'>delete user</a></td>";
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Handle the form submission here
+        foreach ($_POST['roles'] as $id => $role) {
+            // Update the role in the database for each user
+            $updateSql = "UPDATE users SET Role = '$role' WHERE id = $id";
+            mysqli_query($conn, $updateSql);
+        }
+    }
 
-    echo "<td><a class='nline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='index.php?id=$id'>add user</a></td>";
-    echo "<td><select name='categorias'>";
-    // solution
+    $sql = "SELECT * FROM users";
+    $quy = mysqli_query($conn, $sql);
 
-    echo "</tr>";
-}
+    while ($row = mysqli_fetch_assoc($quy)) {
+        $id = $row['id'];
 
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+        echo "<td>" . $row['Password'] . "</td>";
+        echo "<td>" . $row['Email'] . "</td>";
+        echo "<td><a class='inline-flex items-center mb-20 px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='delete.php?id=$id' style='margin: 10px 0 10px 0;'>delete user</a></td>";
+        echo "<td><a class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='index.php?id=$id'>add user</a></td>";
 
-?>
+        echo "<td>";
+        echo "<form method='post'>";
+        echo "<select name='roles[$id]'>";
+        echo "<option value='user' " . ($row['Role'] === 'user' ? 'selected' : '') . ">User</option>";
+        echo "<option value='admin' " . ($row['Role'] === 'admin' ? 'selected' : '') . ">Admin</option>";
+        echo "</select>";
+        echo "<input type='submit' value='Change Role'>";
+        echo "</form>";
+        echo "</td>";
 
-<br><br>
-    </table>
+        echo "</tr>";
+    }
+    ?>
+</table>
+
     <!-- add imag in database -->
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="dashboard.php" method="post" enctype="multipart/form-data">
     <div class="mb-4">
@@ -177,6 +190,7 @@ echo "<table border='1' class='w-full text-sm text-left rtl:text-right text-gray
         <th>Delete Image</th>
     </tr>";
     $sql = "SELECT * FROM product";
+    
     $quy = mysqli_query($conn, $sql);
     
 while ($row = mysqli_fetch_assoc($quy)) {
@@ -219,8 +233,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         move_uploaded_file($tmp_name, $img_upload_path);
 
         // Insert into Database
-        $sql = "INSERT INTO product (titre, description, prix, image, q_min, q_max) 
-                VALUES ('$titre', '$description', '$prix', '$new_img_name', '$q_min', '$q_max')";
+        $sql = "INSERT INTO product (titre, description, prix, image, q_min, q_max , id_c) 
+                VALUES ('$titre', '$description', '$prix', '$new_img_name', '$q_min', '$q_max' , id_c)";
         if (mysqli_query($conn, $sql)) {
             echo "Product added successfully!";
         } else {

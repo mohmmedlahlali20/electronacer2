@@ -8,12 +8,11 @@ $result = mysqli_query($conn,$inter);
 if(isset($result)){
     header("location: product.php");
 }
+else {
+    echo 'erreur';
+}
 }
 ?>
-
-
-
-
 
 
 
@@ -44,29 +43,14 @@ if(isset($result)){
                 </div>
                 
                 <div>
-                    <div class="flex -mx-3">
-                        <div class="w-1/2 px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">First name</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
-                                <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="John">
-                            </div>
-                        </div>
-                        <div class="w-1/2 px-3 mb-5">
-                            <label for="" class="text-xs font-semibold px-1">Last name</label>
-                            <div class="flex">
-                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
-                                <input type="text" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Smith">
-                            </div>
-                        </div>
-                    </div>
+                    
                     <form action="" method="post">
                     <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
                             <label for="" class="text-xs font-semibold px-1">Email</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                <input type="email" name="email" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder=" ex :AAAbbbb23-'@gmail.com">
+                                <input type="email" name="email" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder=" ex :AAAbbbb23-'@gmail.com" required>
                             </div>
                         </div>
                     </div>
@@ -75,7 +59,7 @@ if(isset($result)){
                             <label for="" class="text-xs font-semibold px-1">Password</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
-                                <input type="password" name="password" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************">
+                                <input type="password" name="password" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************" required>
                             </div>
                         </div>
                     </div>

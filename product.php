@@ -7,7 +7,10 @@ $result = $conn->query($sql);
 if (!$result) {
     die("Error: " . $conn->error);
 }
+
+
 $categories = [];
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         array_push($categories, $row);
@@ -26,11 +29,10 @@ if ($result->num_rows > 0) {
 </head>
 
 <body class="bg-gray-100 p-8 bg-gray-100">
-  <!-- get product in data base -->
-  <!-- Barre de Navigation -->
+ 
   <nav class="bg-blue-500 p-4">
     <div class="container mx-auto flex items-center justify-between">
-      <!-- Logo -->
+
       <a href="#" class="text-white text-xl font-semibold"> WELECOM IN ELECTRO NACER</a>
       <div>
         <a href=""><img style="text-align: center; margin-left:50%" width="10%" height="10%"
@@ -40,14 +42,13 @@ if ($result->num_rows > 0) {
           Electro_Nacer</h1>
       </div>
 
-      <!-- Bouton de Menu pour les petits écrans -->
       <button id="menuToggle" class="text-white focus:outline-none lg:hidden">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
       </button>
 
-      <!-- Menu de Navigation -->
+      
       <div class="hidden lg:flex lg:items-center lg:w-auto">
         <ion-icon name="journal-outline"></ion-icon>
         <a href="#" class="text-white hover:text-gray-300 px-4 py-2">0.00 USD</a>
@@ -57,10 +58,6 @@ if ($result->num_rows > 0) {
     </div>
 
   </nav>
-
-
-  <!-- Menu Déroulant pour les Petits Écrans -->
-
 
 
   <div class="container mx-auto dii">
@@ -165,6 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['action']) && $_GET['act
             <p class='text-gray-600 mb-4'>" . (isset($row['description']) ? $row['description'] : 'No description') . "</p>
             <div class='flex items-center justify-between'>
                 <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['prix']) ? $row['prix'] : 'no price??') . " $</h3>
+
                 <button class='bg-indigo-600 text-white px-4 py-2 rounded-md'>Add to Cart</button>
             </div>
         </div>";
@@ -195,7 +193,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['action']) && $_GET['act
             <h2 class='text-lg font-semibold text-gray-800 capitalize'>" . (isset($row['titre']) ? $row['titre'] : 'NOT FOUND') . "</h2>
             <p class='text-gray-600 mb-4'>" . (isset($row['description']) ? $row['description'] : 'No description') . "</p>
             <div class='flex items-center justify-between'>
-                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['prix']) ? $row['prix'] : 'no price??') . " $</h3>
+                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['prix']) ? $row['prix'] : 'no price??') . " $</h3> <br>
+    
                 <button class='bg-indigo-600 text-white px-4 py-2 rounded-md'>Add to Cart</button>
             </div>
         </div>";
@@ -219,7 +218,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || ($_SERVER['REQUEST_METHOD'] == 'POST'
             <h2 class='text-lg font-semibold text-gray-800 capitalize'>" . (isset($row['titre']) ? $row['titre'] : 'NOT FOUND') . "</h2>
             <p class='text-gray-600 mb-4'>" . (isset($row['description']) ? $row['description'] : 'No description') . "</p>
             <div class='flex items-center justify-between'>
-                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['prix']) ? $row['prix'] : 'no price??') . " $</h3>
+                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['prix']) ? $row['prix'] : 'no price??') . " $</h3> <br>
+
                 <button class='bg-indigo-600 text-white px-4 py-2 rounded-md'>Add to Cart</button>
             </div>
         </div>";
@@ -422,3 +422,38 @@ $conn->close();
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['q_max']) ? $row['q_max'] : 'no price??') . " $</h3><br>
+                <h3 class='text-xl font-semibold text-gray-800'>" . (isset($row['q_min']) ? $row['q_min'] : 'no price??') . " $</h3><br> -->

@@ -1,21 +1,41 @@
 <?php
 require_once './tmp/connection.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-$email = $_POST['email'];
-$password = $_POST['password'];
- $inter = "INSERT INTO users ( `Email`, `Password`) VALUES ('$email','$password')";
-$result = mysqli_query($conn,$inter);
-if(isset($result)){
-    header("location: product.php");
-}
-else {
-    echo 'erreur';
-}
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+    $insertQuery = "INSERT INTO users (`Email`, `Password`, `Verified`) VALUES ('$email', '$password', 0)";
+    $result = mysqli_query($conn, $insertQuery);
+
+    if ($result) {
+       
+        $checkVerificationQuery = "SELECT Verified FROM users WHERE Email = '$email'";
+        $verificationResult = mysqli_query($conn, $checkVerificationQuery);
+
+        if ($verificationResult) {
+            $user = mysqli_fetch_assoc($verificationResult);
+
+            if ($user['Verified'] == 1) {
+               
+                header("location: product.php");
+            } else {
+                
+                header("location: att.php");
+            }
+        } else {
+            
+            echo 'Error fetching user verification status.';
+        }
+    } else {
+        
+        echo 'Error inserting user into the database.';
+    }
+} else {
+    
+    echo 'Invalid request method.';
 }
 ?>
-
-
-
 
 
 
@@ -65,7 +85,7 @@ else {
                     </div>
                     <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
-                            <button class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
+                            <button name="log" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
                         </div>
                     </div>
                     </form>

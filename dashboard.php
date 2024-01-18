@@ -76,19 +76,18 @@
         <th>delete user</th>
         <th>accepter user </th>
         <th>Role</th>
+        <th>Verifid</th>
     </tr>
 
     <?php
     require_once './tmp/connection.php';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Handle the form submission here
-        foreach ($_POST['roles'] as $id => $role) {
-            // Update the role in the database for each user
-            $updateSql = "UPDATE users SET Role = '$role' WHERE id = $id";
-            mysqli_query($conn, $updateSql);
-        }
-    }
+    $updateSql = "UPDATE users SET Role = ? WHERE id = ? ";
+$stmt = mysqli_prepare($conn, $updateSql);
+mysqli_stmt_bind_param($stmt, "si", $role, $id);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+
 
     $sql = "SELECT * FROM users";
     $quy = mysqli_query($conn, $sql);
@@ -101,25 +100,26 @@
         echo "<td>" . $row['Password'] . "</td>";
         echo "<td>" . $row['Email'] . "</td>";
         echo "<td><a class='inline-flex items-center mb-20 px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='delete.php?id=$id' style='margin: 10px 0 10px 0;'>delete user</a></td>";
-        echo "<td><a class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='index.php?id=$id'>add user</a></td>";
+        echo "<td><a class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' href='verified_user.php?id=$id'>verified user</a></td>";
 
         echo "<td>";
         echo "<form method='post'>";
         echo "<select name='roles[$id]'>";
-        echo "<option value='user' " . ($row['Role'] === 'user' ? 'selected' : '') . ">User</option>";
-        echo "<option value='admin' " . ($row['Role'] === 'admin' ? 'selected' : '') . ">Admin</option>";
+        echo "<option class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' value='user' " . ($row['Role'] === 'user' ? 'selected' : '') . ">User</option>";
+        echo "<option class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' value='admin' " . ($row['Role'] === 'admin' ? 'selected' : '') . ">Admin</option>";
         echo "</select>";
-        echo "<input type='submit' value='Change Role'>";
+        echo "<input class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' type='submit' value='Change Role'>";
         echo "</form>";
+        echo "<td>" . $row['Verified'] . "</td>";
         echo "</td>";
 
         echo "</tr>";
     }
     ?>
+
 </table>
 
-    <!-- add imag in database -->
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="dashboard.php" method="post" enctype="multipart/form-data">
+<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="dashboard.php" method="post" enctype="multipart/form-data">
     <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="titre">Titre</label>
         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="titre" type="text" name="titre" placeholder="Titre">
@@ -141,13 +141,13 @@
         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="q_min" type="number" name="q_min" placeholder="Quantité minimale">
     </div>
     <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_c">id category</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="id_c" type="number" name="id_c" placeholder="id category">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_c">ID Catégorie</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="id_c" type="number" name="id_c" placeholder="ID Catégorie">
     </div>
     <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryFilter">ADD Category:</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryFilter">Ajouter une catégorie :</label>
         <select id="categoryFilter" name="categoryFilter" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <option value="">All Categories</option>
+            <option value="">Toutes les catégories</option>
             <?php
             require_once "./tmp/connection.php";
             $categorySql = "SELECT * FROM categories";
@@ -164,10 +164,9 @@
         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="image" type="file" name="image" accept="image/*">
     </div>
     <div class="flex justify-center">
-        <button class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded" name="submit" type="submit">Add Product</button>
+        <button class="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded" name="submit" type="submit">Ajouter un produit</button>
     </div>
 </form>
-
 
 
 
@@ -203,7 +202,7 @@ while ($row = mysqli_fetch_assoc($quy)) {
     echo "<td>" . $row['q_max'] . "</td>";
     echo "<td>" . $row['q_min'] . "</td>";
     echo "<td>" . $row['id_c'] . "</td>";
-    echo "<td><a href='delete.php?id=" . $row['id'] . "&type=product'>Delete</a></td>";
+    echo "<td><a class='inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800' href='delete.php?id=" . $row['id'] . "&type=product'>Delete</a></td>";
     echo "</tr>";
 }
 echo "</table>";
@@ -234,7 +233,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
         // Insert into Database
         $sql = "INSERT INTO product (titre, description, prix, image, q_min, q_max , id_c) 
-                VALUES ('$titre', '$description', '$prix', '$new_img_name', '$q_min', '$q_max' , id_c)";
+        VALUES ('$titre', '$description', '$prix', '$new_img_name', '$q_min', '$q_max' , '$id_c')";
+
         if (mysqli_query($conn, $sql)) {
             echo "Product added successfully!";
         } else {

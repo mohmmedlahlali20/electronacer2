@@ -1,38 +1,47 @@
-
-
-
-<?php 
+<?php
 require_once './tmp/connection.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-	$email = $_POST['email'];
-	$password= $_POST['password'];
-  
-	$sql = "SELECT * FROM users WHERE email = '$email'";
-	$query = mysqli_query($conn, $sql);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+	// exist email
 	
-	if (!$query) {
-	   
-		die("Error: " . mysqli_error($conn));
-	}
-	
-	$user = mysqli_fetch_assoc($query);
-  
-	if ($user != '') {
-	  if($user['Password']==$password){
-		$_SESSION['email'] = $email;
-		$_SESSION['Password'] = $password;
-		$Role = $user['Role'];
-		$_SESSION['Role']=$Role;
-		if ($Role == 'admin') {
-			header('Location: ./dashboard.php');
-		} else{
-			header('Location: ./product.php');
-		}
-	  }
-	}
-  }
+
+
+
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $query = mysqli_query($conn, $sql);
+
+    if (!$query) {
+        die("Error: " . mysqli_error($conn));
+    }
+
+    $user = mysqli_fetch_assoc($query);
+
+    if ($user != '') {
+        if ($user['Password'] == $password) {
+            $_SESSION['email'] = $email;
+            $_SESSION['Password'] = $password;
+            $Role = $user['Role'];
+            $_SESSION['Role'] = $Role;
+
+            if ($user['Verified'] == 0) {
+                
+                header('Location: att.php');
+            } else {
+                
+                if ($Role == 'admin') {
+                    header('Location: dashboard.php');
+                } else {
+                    header('Location: product.php');
+                }
+            }
+        }
+    }
+}
 ?>
+
 
 
 

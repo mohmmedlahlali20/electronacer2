@@ -244,8 +244,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         echo "Invalid file format. Please upload a valid image.";
     }
 }
+?>
 
-// Fetch existing products
+<div class="modal fade" id="addNewCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="text-primary" id="exampleModalLabel">Add New Category</h5>
+            </div>
+            <form id="categoryForm" action="dashboard.php" method="post"> 
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="categoryName">Category Name</label>
+                        <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter Category Name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php 
+
+
+
+if (isset($_POST['categoryName'])) {
+    $categoryName = $_POST['categoryName'];
+    $sql = "INSERT INTO category (categoryName) VALUES ('$categoryName')";
+    $result = mysqli_query($conn, $sql);
+    if ($result) {
+        echo '<script>alert("Category Added Successfully")</script>';
+        echo '<script>window.location.href="dashboard.php"</script>';
+    } else {
+        echo '<script>alert("Category Not Added")</script>';
+        echo '<script>window.location.href="dashboard.php"</script>';
+    }
+}
+
+
+
+
+
+
 
 echo "<h2 class='mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl'>Table Category</h2>";
 
@@ -253,7 +295,7 @@ echo "<table border='1' class='w-full text-sm text-left rtl:text-right text-gray
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <!-- Add more columns if needed -->
+        
     </tr>";
 $categorySql = "SELECT * FROM categories";
 $categoryQuery = mysqli_query($conn, $categorySql);
@@ -277,7 +319,7 @@ mysqli_close($conn);
 
 
 
-
+<br><br><br>
 <footer class="bg-white lg:grid lg:grid-cols-5">
   <div class="relative block h-32 lg:col-span-2 lg:h-full">
     <img

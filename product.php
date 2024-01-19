@@ -229,6 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || ($_SERVER['REQUEST_METHOD'] == 'POST'
 
 $conn->close();
 ?>
+<br><br><br>
     </div>
     <div>
       <footer class="bg-white lg:grid lg:grid-cols-5">

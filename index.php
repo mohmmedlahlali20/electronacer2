@@ -5,36 +5,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    $insertQuery = "INSERT INTO users (`Email`, `Password`, `Verified`) VALUES ('$email', '$password', 0)";
-    $result = mysqli_query($conn, $insertQuery);
 
-    if ($result) {
-       
-        $checkVerificationQuery = "SELECT Verified FROM users WHERE Email = '$email'";
-        $verificationResult = mysqli_query($conn, $checkVerificationQuery);
+    $checkEmailQuery = "SELECT COUNT(*) as count FROM users WHERE Email = '$email'";
+    $checkEmailResult = mysqli_query($conn, $checkEmailQuery);
 
-        if ($verificationResult) {
-            $user = mysqli_fetch_assoc($verificationResult);
+    if ($checkEmailResult) {
+        $count = mysqli_fetch_assoc($checkEmailResult)['count'];
 
-            if ($user['Verified'] == 1) {
-               
-                header("location: product.php");
-            } else {
-                
-                header("location: att.php");
-            }
+        if ($count > 0) {
+            $errorMessage = 'Email already exists.';
         } else {
-            
-            echo 'Error fetching user verification status.';
+            $insertQuery = "INSERT INTO users (`Email`, `Password`, `Verified`) VALUES ('$email', '$password', 0)";
+            $result = mysqli_query($conn, $insertQuery);
+
+            if ($result) {
+                $checkVerificationQuery = "SELECT Verified FROM users WHERE Email = '$email'";
+                $verificationResult = mysqli_query($conn, $checkVerificationQuery);
+
+                if ($verificationResult) {
+                    $user = mysqli_fetch_assoc($verificationResult);
+
+                    if ($user['Verified'] == 1) {
+                        header("location: product.php");
+                    } else {
+                        header("location: att.php");
+                    }
+                } else {
+                    $errorMessage = 'Error fetching user verification status.';
+                }
+            } else {
+                $errorMessage = 'Error inserting user into the database.';
+            }
         }
     } else {
-        
-        echo 'Error inserting user into the database.';
+        $errorMessage = 'Error checking if email exists.';
     }
-} else {
-    
-    echo 'Invalid request method.';
 }
+
 ?>
 
 
@@ -48,6 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Document</title>
 </head>
 <body>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
     <section>
 
 <div class="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
@@ -63,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 
                 <div>
-                    
                     <form action="" method="post">
                     <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
@@ -72,6 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
                                 <input type="email" name="email" w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder=" ex :AAAbbbb23-'@gmail.com" required>
                             </div>
+                            <?php if (isset($errorMessage)) : ?>
+                            <p class="error-message"><?= $errorMessage; ?></p>
+                        <?php else : ?>
+                            
+                        <?php endif; ?>
                         </div>
                     </div>
                     <div class="flex -mx-3">
@@ -88,23 +104,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <button name="log" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
                         </div>
                     </div>
+                    <div>
+                        <a class="text-white flex justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="register.php">login to my account</a>
+                    </div>
                     </form>
-                   
                 </div>
             </div>
-           
         </div>
     </div>
 </div>
 
-<!-- BUY ME A BEER AND HELP SUPPORT OPEN-SOURCE RESOURCES -->
-<div class="flex items-end justify-end fixed bottom-0 right-0 mb-4 mr-4 z-10">
-    <div>
-        <a title="Buy me a beer" href="register.php" target="_blank" class="block w-16 h-16 rounded-full transition-all shadow hover:shadow-lg transform hover:scale-110 hover:rotate-12">
-            <img class="object-cover object-center w-full h-full rounded-full" src="Layout/img/images.png"/>
-        </a>
-    </div>
-</div>
     </section>
     <script src="./Layout/js/script.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
